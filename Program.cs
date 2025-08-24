@@ -32,6 +32,7 @@ builder.Services.AddCors(option =>
 {
     option.AddPolicy("EcommPolicy", policy =>
     {
+        policy.SetIsOriginAllowed(origin=> true);
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
     });
@@ -42,7 +43,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseRouting();
-app.UseCors();
+app.UseCors("EcommPolicy");
 app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())
