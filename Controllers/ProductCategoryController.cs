@@ -8,7 +8,7 @@ using static ecommerce_api.Constants;
 
 namespace ecommerce_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/productCategory")]
     [ApiController]
     public class ProductCategoryController : ControllerBase
     {
@@ -17,17 +17,17 @@ namespace ecommerce_api.Controllers
         {
             _productCategoryService = productCategoryService;
         }
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ItemResponse<SavedProductCategory>> CreateProductCategory(string name)
         {
             return await _productCategoryService.CreateProductCategoryAsync(name);
         }
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<ListResponse<ProductCategoryItem>> GetAllProductCategory()
         {
             return await _productCategoryService.GetAllProductCategory();
         }
-        [HttpGet("categoryId={categoryId:guid}")]
+        [HttpGet("get/categoryId={categoryId:guid}")]
         public async Task<ItemResponse<ProductCategoryItem>> GetSelectedProductCategory(Guid categoryId)
         {
             return await _productCategoryService.GetSelectedProductCategory(categoryId);
