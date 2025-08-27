@@ -52,6 +52,13 @@ namespace ecommerce_api.Services.Classes
                 var productCategoryItems= await _productCategoryrepository.GetAllProductCategoryAsync();
                 if (productCategoryItems.Count() > 0)
                 {
+                    foreach (var productCategory in productCategoryItems)
+                    {
+                        if (productCategory.UpdatedOn == default(DateTime))
+                        {
+                            productCategory.UpdatedOn = null;
+                        }
+                    }
                     response.Items = productCategoryItems.ToList();
                     response.StatusCode = HttpStatusCode.OK;
                     response.Message = RecordListFound;
@@ -76,10 +83,14 @@ namespace ecommerce_api.Services.Classes
             var response = new ItemResponse<ProductCategoryItem>();
             try
             {
-                var result= await _productCategoryrepository.GetSelectedProductCategoryAsync(categoryId);
-                if (result != null)
+                var selectedProductCategory = await _productCategoryrepository.GetSelectedProductCategoryAsync(categoryId);
+                if (selectedProductCategory != null)
                 {
-                    response.Item = result;
+                    if (selectedProductCategory.UpdatedOn == default(DateTime))
+                    {
+                        selectedProductCategory.UpdatedOn = null;
+                    }
+                    response.Item = selectedProductCategory;
                     response.StatusCode = HttpStatusCode.Found;
                     response.Message = SelectedRecordFound;
                 }
